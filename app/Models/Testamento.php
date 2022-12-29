@@ -9,4 +9,12 @@ class Testamento extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'nome'
+    ];
+
+    // public $timeStamps = false;
+
+
+
 }
