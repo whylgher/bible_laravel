@@ -15,4 +15,14 @@ class Livros extends Model
         'abreviacao',
         'testamento_id'
     ];
+
+    /**
+     * Get the testamento that owns the Livros
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function testamento()
+    {
+        return $this->belongsTo(Testamento::class);
+    }
 }
