@@ -25,7 +25,24 @@ class LivroController extends Controller
      */
     public function store(Request $request)
     {
-        return Livros::create($request->all());
+        $livro = Livros::where('nome', '=', $request['nome'])->first();
+
+        if($livro == null){
+            if( Livros::create($request->all())){
+                return response()->json([
+                    'message' => 'Livro cadastrado com sucesso',
+                    ], 201
+                );
+            }
+            return response()->json([
+                    'message' => 'Erro ao cadastrar Livro',
+                ], 404
+            );
+        }
+        return response()->json([
+            'message' => 'Livro já existente',
+        ], 404
+    );
     }
 
     /**
@@ -36,7 +53,14 @@ class LivroController extends Controller
      */
     public function show($id)
     {
-        return Livros::findOrFail($id);
+        $livro = Livros::find($id);
+        if($livro){
+            return $livro;
+        }
+        return response()->json([
+            'message' => 'Erro ao pesquisar Livro',
+           ], 404
+        );
     }
 
     /**
@@ -48,10 +72,16 @@ class LivroController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $livro = Livros::findOrFail($id);
-        $livro->update($request->all());
+        $livro = Livros::find($id);
 
-        return $livro;
+        if($livro){
+            $livro->update($request->all());
+            return $livro;
+        }
+        return response()->json([
+            'message' => 'Erro ao atualizar Livro',
+           ], 404
+        );
     }
 
     /**
@@ -62,8 +92,18 @@ class LivroController extends Controller
      */
     public function destroy($id)
     {
-        $livro = Livros::findOrFail($id);
+        $livro = Livros::find($id);
 
-        return Livros::destroy($id);
+        if($livro){
+            Livros::destroy($id);
+            return response()->json([
+                'message' => 'Livro deletado',
+               ], 404
+            );
+        }
+        return response()->json([
+            'message' => 'Erro ao deletar Livro',
+           ], 404
+        );
     }
 }

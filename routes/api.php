@@ -17,8 +17,6 @@ use App\Http\Controllers\VersiculoController;
 |
 */
 
-
-
 // Route::prefix('/livro')->group(function () {
     // Route::get('/', [LivroController::class, 'index']);
 
@@ -31,9 +29,15 @@ use App\Http\Controllers\VersiculoController;
     // Route::delete('/{id}', [LivroController::class, 'destroy']);
 // });
 
-Route::apiResource('testamento', TestamentoController::class);
-Route::apiResource('livro', LivroController::class);
-Route::apiResource('versiculo', VersiculoController::class);
+// Route::apiResource('testamento', TestamentoController::class);
+// Route::apiResource('livro', LivroController::class);
+// Route::apiResource('versiculo', VersiculoController::class);
+
+Route::apiResources([
+    'testamento' => TestamentoController::class,
+    'livro' => LivroController::class,
+    'versiculo' => VersiculoController::class,
+]);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
