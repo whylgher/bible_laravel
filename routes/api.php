@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TestamentoController;
 use App\Http\Controllers\LivroController;
+use App\Http\Controllers\VersiculoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +30,19 @@ Route::prefix('/livro')->group(function () {
     Route::put('/{id}', [LivroController::class, 'update']);
 
     Route::delete('/{id}', [LivroController::class, 'destroy']);
+});
+
+Route::prefix('/versiculo')->group(function () {
+
+    Route::get('/', [VersiculoController::class, 'index']);
+
+    Route::get('/{id}', [VersiculoController::class, 'show']);
+
+    Route::post('/', [VersiculoController::class, 'store']);
+
+    Route::put('/{id}', [VersiculoController::class, 'update']);
+
+    Route::delete('/{id}', [VersiculoController::class, 'destroy']);
 });
 
 Route::prefix('/testamento')->group(function () {
