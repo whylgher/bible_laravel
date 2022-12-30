@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Livro;
+use App\Models\Versao;
 use Illuminate\Http\Request;
 
-class LivroController extends Controller
+class VersaoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class LivroController extends Controller
      */
     public function index()
     {
-        return Livro::all();
+        return Versao::all();
     }
 
     /**
@@ -25,24 +25,14 @@ class LivroController extends Controller
      */
     public function store(Request $request)
     {
-        $livro = Livro::where('nome', '=', $request['nome'])->first();
-
-        if($livro == null){
-            if( Livro::create($request->all())){
-                return response()->json([
-                    'message' => 'Livro cadastrado com sucesso',
-                    ], 201
-                );
-            }
+        if(Versao::create($request->all())){
             return response()->json([
-                    'message' => 'Erro ao cadastrar Livro',
-                ], 404
-            );
+                'message' => 'Versao cadastrado com sucesso.'
+            ], 201);
         }
         return response()->json([
-            'message' => 'Livro já existente',
-            ], 404
-        );
+            'message' => 'Erro ao cadastrar Versao.'
+        ], 404);
     }
 
     /**
@@ -53,17 +43,16 @@ class LivroController extends Controller
      */
     public function show($id)
     {
-        $livro = Livro::find($id);
-        if($livro){
-            $livro->testamento;
-            $livro->versiculos;
-            $livro->versao;
-            return $livro;
+        $versao = Versao::find($id);
+        if($versao) {
+            $versao->idioma;
+            $versao->livros;
+            return $versao;
         }
+
         return response()->json([
-            'message' => 'Erro ao pesquisar Livro',
-           ], 404
-        );
+            'message' => 'Erro ao pesquisar Versao.'
+        ], 404);
     }
 
     /**
@@ -75,16 +64,18 @@ class LivroController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $livro = Livro::find($id);
+        $versao = Versao::find($id);
 
-        if($livro){
-            $livro->update($request->all());
-            return $livro;
+        if($versao) {
+            $versao->update($request->all());
+            return response()->json([
+                'message' => 'Versao atualizado com sucesso.'
+            ], 201);
         }
+
         return response()->json([
-            'message' => 'Erro ao atualizar Livro',
-           ], 404
-        );
+            'message' => 'Erro ao atualizar Versao.'
+        ], 404);
     }
 
     /**
@@ -95,18 +86,19 @@ class LivroController extends Controller
      */
     public function destroy($id)
     {
-        $livro = Livro::find($id);
+        $versao = Versao::find($id);
 
-        if($livro){
-            Livro::destroy($id);
+        if($versao){
+            Versao::destroy($id);
             return response()->json([
-                'message' => 'Livro deletado',
+                'message' => 'Versao deletado',
                ], 404
             );
         }
         return response()->json([
-            'message' => 'Erro ao deletar Livro',
+            'message' => 'Erro ao deletar Versao',
            ], 404
         );
     }
 }
+

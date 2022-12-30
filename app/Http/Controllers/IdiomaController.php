@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Livro;
+use App\Models\Idioma;
 use Illuminate\Http\Request;
 
-class LivroController extends Controller
+class IdiomaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class LivroController extends Controller
      */
     public function index()
     {
-        return Livro::all();
+        return Idioma::all();
     }
 
     /**
@@ -25,24 +25,14 @@ class LivroController extends Controller
      */
     public function store(Request $request)
     {
-        $livro = Livro::where('nome', '=', $request['nome'])->first();
-
-        if($livro == null){
-            if( Livro::create($request->all())){
-                return response()->json([
-                    'message' => 'Livro cadastrado com sucesso',
-                    ], 201
-                );
-            }
+        if(Idioma::create($request->all())){
             return response()->json([
-                    'message' => 'Erro ao cadastrar Livro',
-                ], 404
-            );
+                'message' => 'Idioma cadastrado com sucesso.'
+            ], 201);
         }
         return response()->json([
-            'message' => 'Livro já existente',
-            ], 404
-        );
+            'message' => 'Erro ao cadastrar idioma.'
+        ], 404);
     }
 
     /**
@@ -53,17 +43,15 @@ class LivroController extends Controller
      */
     public function show($id)
     {
-        $livro = Livro::find($id);
-        if($livro){
-            $livro->testamento;
-            $livro->versiculos;
-            $livro->versao;
-            return $livro;
+        $idioma = Idioma::find($id);
+        if($idioma) {
+            $idioma->versoes;
+            return $idioma;
         }
+
         return response()->json([
-            'message' => 'Erro ao pesquisar Livro',
-           ], 404
-        );
+            'message' => 'Erro ao pesquisar idioma.'
+        ], 404);
     }
 
     /**
@@ -75,16 +63,18 @@ class LivroController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $livro = Livro::find($id);
+        $idioma = Idioma::find($id);
 
-        if($livro){
-            $livro->update($request->all());
-            return $livro;
+        if($idioma) {
+            $idioma->update($request->all());
+            return response()->json([
+                'message' => 'Idioma atualizado com sucesso.'
+            ], 201);
         }
+
         return response()->json([
-            'message' => 'Erro ao atualizar Livro',
-           ], 404
-        );
+            'message' => 'Erro ao atualizar idioma.'
+        ], 404);
     }
 
     /**
@@ -95,17 +85,17 @@ class LivroController extends Controller
      */
     public function destroy($id)
     {
-        $livro = Livro::find($id);
+        $idioma = Idioma::find($id);
 
-        if($livro){
-            Livro::destroy($id);
+        if($idioma){
+            Idioma::destroy($id);
             return response()->json([
-                'message' => 'Livro deletado',
+                'message' => 'Idioma deletado',
                ], 404
             );
         }
         return response()->json([
-            'message' => 'Erro ao deletar Livro',
+            'message' => 'Erro ao deletar Idioma',
            ], 404
         );
     }

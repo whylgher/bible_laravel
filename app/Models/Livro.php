@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Versao;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Livro extends Model
 {
@@ -13,7 +14,8 @@ class Livro extends Model
         'nome',
         'posicao',
         'abreviacao',
-        'testamento_id'
+        'testamento_id',
+        'versao_id',
     ];
 
     /**
@@ -34,5 +36,15 @@ class Livro extends Model
     public function versiculos()
     {
         return $this->hasMany(Versiculo::class);
+    }
+
+    /**
+     * Get the versao that owns the Versao
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function versao()
+    {
+        return $this->belongsTo(Versao::class);
     }
 }
