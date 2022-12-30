@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TestamentoController;
+use App\Http\Controllers\LivroController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,15 +17,32 @@ use App\Http\Controllers\TestamentoController;
 */
 
 
-Route::get('/testamento', [TestamentoController::class, 'index']);
 
-Route::get('/testamento/{id}', [TestamentoController::class, 'show']);
+Route::prefix('/livro')->group(function () {
 
-Route::post('/testamento', [TestamentoController::class, 'store']);
+    Route::get('/', [LivroController::class, 'index']);
 
-Route::put('/testamento/{id}', [TestamentoController::class, 'update']);
+    Route::get('/{id}', [LivroController::class, 'show']);
 
-Route::delete('/testamento/{id}', [TestamentoController::class, 'destroy']);
+    Route::post('/', [LivroController::class, 'store']);
+
+    Route::put('/{id}', [LivroController::class, 'update']);
+
+    Route::delete('/{id}', [LivroController::class, 'destroy']);
+});
+
+Route::prefix('/testamento')->group(function () {
+
+    Route::get('/', [TestamentoController::class, 'index']);
+
+    Route::get('/{id}', [TestamentoController::class, 'show']);
+
+    Route::post('/', [TestamentoController::class, 'store']);
+
+    Route::put('/{id}', [TestamentoController::class, 'update']);
+
+    Route::delete('/{id}', [TestamentoController::class, 'destroy']);
+});
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Testamento;
+use App\Models\Livros;
 use Illuminate\Http\Request;
 
-class TestamentoController extends Controller
+class LivroController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class TestamentoController extends Controller
      */
     public function index()
     {
-        return Testamento::all();
+        return Livros::all();
     }
 
     /**
@@ -25,7 +25,7 @@ class TestamentoController extends Controller
      */
     public function store(Request $request)
     {
-        return Testamento::create($request->all());
+        return Livros::create($request->all());
     }
 
     /**
@@ -36,7 +36,7 @@ class TestamentoController extends Controller
      */
     public function show($id)
     {
-        return Testamento::findOrFail($id);
+        return Livros::findOrFail($id);
     }
 
     /**
@@ -48,11 +48,10 @@ class TestamentoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $testamento = Testamento::findOrFail($id);
+        $livro = Livros::findOrFail($id);
+        $livro->update($request->all());
 
-        $testamento->update($request->all());
-
-        return $testamento;
+        return $livro;
     }
 
     /**
@@ -63,8 +62,8 @@ class TestamentoController extends Controller
      */
     public function destroy($id)
     {
-        $testamento = Testamento::findOrFail($id);
+        $livro = Livros::findOrFail($id);
 
-        return Testamento::destroy($id);
+        return Livros::destroy($id);
     }
 }
