@@ -25,7 +25,16 @@ class VersiculoController extends Controller
      */
     public function store(Request $request)
     {
-        return Versiculo::create($request->all());
+        if( Versiculo::create($request->all())){
+            return response()->json([
+                'message' => 'Versiculo cadastrado com sucesso',
+                ], 201
+            );
+        }
+        return response()->json([
+                'message' => 'Erro ao cadastrar Versiculo',
+            ], 404
+        );
     }
 
     /**
@@ -36,7 +45,14 @@ class VersiculoController extends Controller
      */
     public function show($id)
     {
-        return Versiculo::findOrFail($id);
+        $versiculo = Versiculo::find($id);
+        if($versiculo){
+            return $versiculo;
+        }
+        return response()->json([
+            'message' => 'Erro ao pesquisar Versiculo',
+           ], 404
+        );
     }
 
     /**
@@ -48,11 +64,16 @@ class VersiculoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $versiculo = Versiculo::findOrFail($id);
+        $versiculo = Versiculo::find($id);
 
-        $versiculo->update($request->all());
-
-        return $versiculo;
+        if($versiculo){
+            $versiculo->update($request->all());
+            return $versiculo;
+        }
+        return response()->json([
+            'message' => 'Erro ao atualizar Versiculo',
+           ], 404
+        );
     }
 
     /**
@@ -63,8 +84,18 @@ class VersiculoController extends Controller
      */
     public function destroy($id)
     {
-        $versiculo = Versiculo::findOrFail($id);
+        $versiculo = Versiculo::find($id);
 
-        return Versiculo::destroy($id);
+        if($versiculo){
+            Versiculo::destroy($id);
+            return response()->json([
+                'message' => 'Versiculo deletado',
+               ], 404
+            );
+        }
+        return response()->json([
+            'message' => 'Erro ao deletar Versiculo',
+           ], 404
+        );
     }
 }

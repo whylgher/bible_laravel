@@ -25,7 +25,16 @@ class TestamentoController extends Controller
      */
     public function store(Request $request)
     {
-        return Testamento::create($request->all());
+        if( Testamento::create($request->all())){
+            return response()->json([
+                'message' => 'Testamento cadastrado com sucesso',
+                ], 201
+            );
+        }
+        return response()->json([
+                'message' => 'Erro ao cadastrar Testamento',
+            ], 404
+        );
     }
 
     /**
@@ -36,7 +45,14 @@ class TestamentoController extends Controller
      */
     public function show($id)
     {
-        return Testamento::findOrFail($id);
+        $testamento = Testamento::find($id);
+        if($testamento){
+            return $testamento;
+        }
+        return response()->json([
+            'message' => 'Erro ao pesquisar Testamento',
+           ], 404
+        );
     }
 
     /**
@@ -48,11 +64,16 @@ class TestamentoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $testamento = Testamento::findOrFail($id);
+        $testamento = Testamento::find($id);
 
-        $testamento->update($request->all());
-
-        return $testamento;
+        if($testamento){
+            $testamento->update($request->all());
+            return $testamento;
+        }
+        return response()->json([
+            'message' => 'Erro ao atualizar Testamento',
+           ], 404
+        );
     }
 
     /**
@@ -63,8 +84,18 @@ class TestamentoController extends Controller
      */
     public function destroy($id)
     {
-        $testamento = Testamento::findOrFail($id);
+        $testamento = Testamento::find($id);
 
-        return Testamento::destroy($id);
+        if($testamento){
+            Testamento::destroy($id);
+            return response()->json([
+                'message' => 'Testamento deletado',
+               ], 404
+            );
+        }
+        return response()->json([
+            'message' => 'Erro ao deletar Testamento',
+           ], 404
+        );
     }
 }
