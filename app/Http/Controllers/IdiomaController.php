@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Testamento;
+use App\Models\Idioma;
 use Illuminate\Http\Request;
 
-class TestamentoController extends Controller
+class IdiomaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class TestamentoController extends Controller
      */
     public function index()
     {
-        return Testamento::all();
+        return Idioma::all();
     }
 
     /**
@@ -25,16 +25,14 @@ class TestamentoController extends Controller
      */
     public function store(Request $request)
     {
-        if( Testamento::create($request->all())){
+        if(Idioma::create($request->all())){
             return response()->json([
-                'message' => 'Testamento cadastrado com sucesso',
-                ], 201
-            );
+                'message' => 'Idioma cadastrado com sucesso.'
+            ], 201);
         }
         return response()->json([
-                'message' => 'Erro ao cadastrar Testamento',
-            ], 404
-        );
+            'message' => 'Erro ao cadastrar idioma.'
+        ], 404);
     }
 
     /**
@@ -45,15 +43,15 @@ class TestamentoController extends Controller
      */
     public function show($id)
     {
-        $testamento = Testamento::find($id);
-        if($testamento){
-            $testamento->livros;
-            return $testamento;
+        $idioma = Idioma::find($id);
+        if($idioma) {
+            $idioma->versoes;
+            return $idioma;
         }
+
         return response()->json([
-            'message' => 'Erro ao pesquisar Testamento',
-           ], 404
-        );
+            'message' => 'Erro ao pesquisar idioma.'
+        ], 404);
     }
 
     /**
@@ -65,16 +63,18 @@ class TestamentoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $testamento = Testamento::find($id);
+        $idioma = Idioma::find($id);
 
-        if($testamento){
-            $testamento->update($request->all());
-            return $testamento;
+        if($idioma) {
+            $idioma->update($request->all());
+            return response()->json([
+                'message' => 'Idioma atualizado com sucesso.'
+            ], 201);
         }
+
         return response()->json([
-            'message' => 'Erro ao atualizar Testamento',
-           ], 404
-        );
+            'message' => 'Erro ao atualizar idioma.'
+        ], 404);
     }
 
     /**
@@ -85,17 +85,17 @@ class TestamentoController extends Controller
      */
     public function destroy($id)
     {
-        $testamento = Testamento::find($id);
+        $idioma = Idioma::find($id);
 
-        if($testamento){
-            Testamento::destroy($id);
+        if($idioma){
+            Idioma::destroy($id);
             return response()->json([
-                'message' => 'Testamento deletado',
+                'message' => 'Idioma deletado',
                ], 404
             );
         }
         return response()->json([
-            'message' => 'Erro ao deletar Testamento',
+            'message' => 'Erro ao deletar Idioma',
            ], 404
         );
     }

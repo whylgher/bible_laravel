@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Testamento;
+use App\Models\Versao;
 use Illuminate\Http\Request;
 
-class TestamentoController extends Controller
+class VersaoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class TestamentoController extends Controller
      */
     public function index()
     {
-        return Testamento::all();
+        return Versao::all();
     }
 
     /**
@@ -25,16 +25,14 @@ class TestamentoController extends Controller
      */
     public function store(Request $request)
     {
-        if( Testamento::create($request->all())){
+        if(Versao::create($request->all())){
             return response()->json([
-                'message' => 'Testamento cadastrado com sucesso',
-                ], 201
-            );
+                'message' => 'Versao cadastrado com sucesso.'
+            ], 201);
         }
         return response()->json([
-                'message' => 'Erro ao cadastrar Testamento',
-            ], 404
-        );
+            'message' => 'Erro ao cadastrar Versao.'
+        ], 404);
     }
 
     /**
@@ -45,15 +43,16 @@ class TestamentoController extends Controller
      */
     public function show($id)
     {
-        $testamento = Testamento::find($id);
-        if($testamento){
-            $testamento->livros;
-            return $testamento;
+        $versao = Versao::find($id);
+        if($versao) {
+            $versao->idioma;
+            $versao->livros;
+            return $versao;
         }
+
         return response()->json([
-            'message' => 'Erro ao pesquisar Testamento',
-           ], 404
-        );
+            'message' => 'Erro ao pesquisar Versao.'
+        ], 404);
     }
 
     /**
@@ -65,16 +64,18 @@ class TestamentoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $testamento = Testamento::find($id);
+        $versao = Versao::find($id);
 
-        if($testamento){
-            $testamento->update($request->all());
-            return $testamento;
+        if($versao) {
+            $versao->update($request->all());
+            return response()->json([
+                'message' => 'Versao atualizado com sucesso.'
+            ], 201);
         }
+
         return response()->json([
-            'message' => 'Erro ao atualizar Testamento',
-           ], 404
-        );
+            'message' => 'Erro ao atualizar Versao.'
+        ], 404);
     }
 
     /**
@@ -85,18 +86,19 @@ class TestamentoController extends Controller
      */
     public function destroy($id)
     {
-        $testamento = Testamento::find($id);
+        $versao = Versao::find($id);
 
-        if($testamento){
-            Testamento::destroy($id);
+        if($versao){
+            Versao::destroy($id);
             return response()->json([
-                'message' => 'Testamento deletado',
+                'message' => 'Versao deletado',
                ], 404
             );
         }
         return response()->json([
-            'message' => 'Erro ao deletar Testamento',
+            'message' => 'Erro ao deletar Versao',
            ], 404
         );
     }
 }
+

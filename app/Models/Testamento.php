@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Testamento extends Model
 {
@@ -16,5 +16,14 @@ class Testamento extends Model
     // public $timeStamps = false;
 
 
+    /**
+     * Get all of the livros for the Testamento
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function livros()
+    {
+        return $this->hasMany(Livro::class);
+    }
 
 }
