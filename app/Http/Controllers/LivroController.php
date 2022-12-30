@@ -41,8 +41,8 @@ class LivroController extends Controller
         }
         return response()->json([
             'message' => 'Livro já existente',
-        ], 404
-    );
+            ], 404
+        );
     }
 
     /**
