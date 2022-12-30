@@ -8,7 +8,8 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function register (Request $request){
+    public function register (Request $request)
+    {
         $userExists = User::where('email', '=', $request['email'])->first();
 
         if($userExists == null){
@@ -44,7 +45,8 @@ class AuthController extends Controller
 
     }
 
-    public function login (Request $request) {
+    public function login (Request $request)
+    {
         $fields = $request->validate([
             'email' => 'required|string',
             'password' => 'required|string'
@@ -66,6 +68,12 @@ class AuthController extends Controller
         ];
 
         return response($response, 201);
+    }
+
+    public function logout ()
+    {
+        auth()->user()->tokens()->delete();
+        return response (['message' => 'Deslogado com sucesso.'], 200);
     }
 
 }

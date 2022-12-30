@@ -1,11 +1,11 @@
 <?php
 
-use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\TestamentoController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LivroController;
 use App\Http\Controllers\VersiculoController;
+use App\Http\Controllers\TestamentoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +26,7 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
         'livro' => LivroController::class,
         'versiculo' => VersiculoController::class,
     ]);
+    Route::post('/logout', [AuthController::class, 'logout']);
 });
 
 Route::post('/login', [AuthController::class, 'login']);
