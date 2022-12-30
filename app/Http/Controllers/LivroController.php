@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Livros;
+use App\Models\Livro;
 use Illuminate\Http\Request;
 
 class LivroController extends Controller
@@ -14,7 +14,7 @@ class LivroController extends Controller
      */
     public function index()
     {
-        return Livros::all();
+        return Livro::all();
     }
 
     /**
@@ -25,10 +25,10 @@ class LivroController extends Controller
      */
     public function store(Request $request)
     {
-        $livro = Livros::where('nome', '=', $request['nome'])->first();
+        $livro = Livro::where('nome', '=', $request['nome'])->first();
 
         if($livro == null){
-            if( Livros::create($request->all())){
+            if( Livro::create($request->all())){
                 return response()->json([
                     'message' => 'Livro cadastrado com sucesso',
                     ], 201
@@ -53,12 +53,10 @@ class LivroController extends Controller
      */
     public function show($id)
     {
-        $livro = Livros::find($id);
+        $livro = Livro::find($id);
         if($livro){
-            $response = [
-                'livro' => $livro,
-                'testamento' => $livro->testamento,
-            ];
+            $livro->testamento;
+            $livro->versiculos;
             return $livro;
         }
         return response()->json([
@@ -76,7 +74,7 @@ class LivroController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $livro = Livros::find($id);
+        $livro = Livro::find($id);
 
         if($livro){
             $livro->update($request->all());
@@ -96,10 +94,10 @@ class LivroController extends Controller
      */
     public function destroy($id)
     {
-        $livro = Livros::find($id);
+        $livro = Livro::find($id);
 
         if($livro){
-            Livros::destroy($id);
+            Livro::destroy($id);
             return response()->json([
                 'message' => 'Livro deletado',
                ], 404

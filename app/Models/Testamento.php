@@ -23,7 +23,7 @@ class Testamento extends Model
      */
     public function livros()
     {
-        return $this->hasMany(Livros::class);
+        return $this->hasMany(Livro::class);
     }
 
 }

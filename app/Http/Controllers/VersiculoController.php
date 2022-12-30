@@ -47,6 +47,7 @@ class VersiculoController extends Controller
     {
         $versiculo = Versiculo::find($id);
         if($versiculo){
+            $versiculo->livro;
             return $versiculo;
         }
         return response()->json([

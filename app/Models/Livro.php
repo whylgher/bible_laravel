@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Livros extends Model
+class Livro extends Model
 {
     use HasFactory;
 
@@ -24,5 +24,15 @@ class Livros extends Model
     public function testamento()
     {
         return $this->belongsTo(Testamento::class);
+    }
+
+    /**
+     * Get all of the versiculo for the Livros
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function versiculos()
+    {
+        return $this->hasMany(Versiculo::class);
     }
 }
