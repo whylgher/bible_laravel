@@ -4,26 +4,61 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Hash;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
     public function register (Request $request){
-        $fields = $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|string|unique:users,email',
-            'password' => 'required|string|confirmed'
-        ]);
+        $userExists = User::where('email', '=', $request['email'])->first();
 
-        $user = User::create(
+        if($userExists == null){
+            $fields = $request->validate([
+                'name' => 'required|string',
+                'email' => 'required|string|unique:users,email',
+                'password' => 'required|string|confirmed'
+            ]);
+
+            $user = User::create(
             [
                 'name' => $fields['name'],
                 'email' => $fields['email'],
                 'password' => bcrypt($fields['password']),
             ]
-        );
+            );
 
-        $token = $user->createToken($request->nameToken)->plainTextToken;
+            $token = $user->createToken($request->nameToken)->plainTextToken;
+
+            $response = [
+                'user' => $user,
+                'token' => $token,
+            ];
+
+            return response($response, 201);
+
+        } else {
+            return response()->json([
+                'message' => 'User already exists',
+                ], 404
+            );
+        }
+
+    }
+
+    public function login (Request $request) {
+        $fields = $request->validate([
+            'email' => 'required|string',
+            'password' => 'required|string'
+        ]);
+
+        $user = User::where('email', $fields['email'])->first();
+
+        if(!$user || !Hash::check($fields['password'], $user->password)){
+            return response([
+                'message' => 'Email ou senha inválidos',
+            ],401);
+        }
+
+        $token = $user->createToken('UsuarioLogado')->plainTextToken;
 
         $response = [
             'user' => $user,
@@ -32,7 +67,10 @@ class AuthController extends Controller
 
         return response($response, 201);
     }
+
 }
 
 
 // 1|G15Zo1Ru9C5NUadFCbSB01GCRaT2ARr6g5rZJazb
+
+// 4|jjPPc1Yq50ryEIaL2tu7Uc8jbgIRKgBgTWc2WfPw
