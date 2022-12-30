@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('livros', function (Blueprint $table) {
             $table->id();
-            $table->integer('posicao');
-            $table->string('nome');
-            $table->string('abreviacao');
+            $table->integer('posicao')->unique();
+            $table->string('nome')->unique();
+            $table->string('abreviacao')->unique();
             $table->unsignedBigInteger('testamento_id');
             $table->timestamps();
 
