@@ -18,31 +18,17 @@ use App\Http\Controllers\VersiculoController;
 |
 */
 
-// Route::prefix('/livro')->group(function () {
-    // Route::get('/', [LivroController::class, 'index']);
+// Authentication
 
-    // Route::get('/{id}', [LivroController::class, 'show']);
-
-    // Route::post('/', [LivroController::class, 'store']);
-
-    // Route::put('/{id}', [LivroController::class, 'update']);
-
-    // Route::delete('/{id}', [LivroController::class, 'destroy']);
-// });
-
-// Route::apiResource('testamento', TestamentoController::class);
-// Route::apiResource('livro', LivroController::class);
-// Route::apiResource('versiculo', VersiculoController::class);
-
-Route::apiResources([
-    'testamento' => TestamentoController::class,
-    'livro' => LivroController::class,
-    'versiculo' => VersiculoController::class,
-]);
+Route::group(['middleware' => ['auth:sanctum']], function() {
+    Route::apiResources([
+        'testamento' => TestamentoController::class,
+        'livro' => LivroController::class,
+        'versiculo' => VersiculoController::class,
+    ]);
+});
 
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+
